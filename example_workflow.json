@@ -1,0 +1,32 @@
+{
+  "workflow": "ExampleWorkflow",
+  "steps": [
+    {
+      "step_id": "A",
+      "run": "echo 'Running task A'",
+      "on_failure": "skip_dependents"
+    },
+  {
+    "step_id": "B",
+    "run": "echo 'Running task B'",
+    "depends_on": ["A"],
+    "if": "status_A == 'success'"
+  },
+  {
+    "step_id": "C",
+    "run": "echo 'Running task C'",
+    "depends_on": ["A"],
+    "parallel_with": ["D"]
+  },
+  {
+    "step_id": "D",
+    "run": "echo 'Running task D'"
+  },
+  {
+    "step_id": "E",
+    "run": "echo 'Running task E'",
+    "depends_on": ["B", "C"],
+    "on_failure": "retry: 2"
+  }
+  ]
+}

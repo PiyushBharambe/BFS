@@ -1,0 +1,27 @@
+{
+  "workflow": "TestWorkflow",
+  "steps": [
+    {
+      "step_id": "A",
+      "run": "echo 'Task A completed'",
+      "on_failure": "skip_dependents"
+    },
+    {
+      "step_id": "B",
+      "run": "echo 'Task B completed'",
+      "depends_on": ["A"],
+      "if": "status_A == 'success'"
+    },
+    {
+      "step_id": "C",
+      "run": "exit 1",
+      "depends_on": ["A"],
+      "on_failure": "retry: 2"
+    },
+    {
+      "step_id": "D",
+      "run": "echo 'Task D completed'",
+      "depends_on": ["C"]
+    }
+  ]
+}
